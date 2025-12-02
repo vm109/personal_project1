@@ -1,0 +1,6 @@
+- jobboard uses listings from various sources 
+- reads through each listing and sends a enriched version to a message queue for further processing
+- i.e enriched message can be sent to a kafka topic
+- from the topic a consumer can read the enriched message and store it to a index like elasticsearch for further searching and filtering
+- from elastic search dashboards like kibana can be used to visualize the data
+- May be a summary report can be generated and stored to a database like postgresql/mongodb for further analysis
