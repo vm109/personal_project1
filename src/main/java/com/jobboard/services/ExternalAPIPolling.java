@@ -1,6 +1,6 @@
 package com.jobboard.services;
 
-import com.jobboard.modesl.dto.JobListing;
+import com.jobboard.models.dto.JobListing;
 
 import java.util.List;
 

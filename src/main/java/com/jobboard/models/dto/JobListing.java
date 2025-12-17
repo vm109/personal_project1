@@ -1,4 +1,4 @@
-package com.jobboard.modesl.dto;
+package com.jobboard.models.dto;
 
 public class JobListing {
     public String getTitle() {
@@ -57,6 +57,14 @@ public class JobListing {
         this.maximumExperience = maximumExperience;
     }
 
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
     private String title;
     private String companyName;
     private String tagsAndSkills;
@@ -64,4 +72,5 @@ public class JobListing {
     private String createdDate;
     private String minimumExperience;
     private String maximumExperience;
+    private String jobId;
 }

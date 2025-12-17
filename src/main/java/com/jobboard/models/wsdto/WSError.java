@@ -1,4 +1,4 @@
-package com.jobboard.modesl.wsdto;
+package com.jobboard.models.wsdto;
 
 public class WSError {
     private String errorMessage;

@@ -1,9 +1,11 @@
 package com.jobboard.controllers;
 
-import com.jobboard.modesl.dto.JobListing;
-import com.jobboard.modesl.wsdto.WSError;
-import com.jobboard.modesl.wsdto.WSJobListingResponse;
+import com.jobboard.data.JobListingMongoRepo;
+import com.jobboard.models.dto.JobListing;
+import com.jobboard.models.wsdto.WSError;
+import com.jobboard.models.wsdto.WSJobListingResponse;
 import com.jobboard.services.ExternalAPIPolling;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class JobSearchController {
 
     @Autowired
     private ExternalAPIPolling externalAPIPolling;
+
+    @Resource
+    private JobListingMongoRepo jobListingMongoRepo;
 
     @Value("${jobsearch.api.url}")
     private String jobSearchApiUrl;
@@ -56,5 +61,14 @@ public class JobSearchController {
         }
          wsJobListingResponse.setJobListings(externalAPIPolling.fetchJobListings(jobSearchApiUrl, keyword, location, experience, pageNo, noOfResults));
         return ResponseEntity.ok(wsJobListingResponse);
+    }
+
+    @GetMapping("/saveOneJob")
+    public ResponseEntity<WSJobListingResponse> saveJobListing() {
+        List<JobListing> jobListingList = externalAPIPolling.fetchJobListings(jobSearchApiUrl, "java", "vijayawada", 2, 1, 1);
+        jobListingMongoRepo.save(jobListingList.get(0));
+        WSJobListingResponse response = new WSJobListingResponse();
+        response.setJobListings(jobListingList);
+        return ResponseEntity.ok(response);
     }
 }

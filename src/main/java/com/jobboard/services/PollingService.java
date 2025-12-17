@@ -2,8 +2,7 @@ package com.jobboard.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jobboard.modesl.dto.JobListing;
-import org.json.JSONArray;
+import com.jobboard.models.dto.JobListing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
@@ -90,6 +88,7 @@ public class PollingService implements ExternalAPIPolling{
                             jobListing.setCreatedDate(jobNode.path("createdDate").asText());
                             jobListing.setMinimumExperience(jobNode.path("minimumExperience").asText());
                             jobListing.setMaximumExperience(jobNode.path("maximumExperience").asText());
+                            jobListing.setJobId(jobNode.path("jobId").asText());
                             jobListings.add(jobListing);
                         }
                     }
