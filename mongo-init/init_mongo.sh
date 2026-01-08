@@ -1,24 +1,24 @@
 #!/bin/sh
-MONGO_URI="mongodb://localhost:27017"
+set -e
+
 DB_NAME="task_tracker_db"
 COLLECTION="jobListing"
 
-mongosh "$MONGO_URI/$DB_NAME" <<EOF
+# Use mongosh without explicit host, Docker sets the default
+mongosh <<EOF
+use $DB_NAME
 
-// 1️⃣ Create collection if not exists
-if (!db.getCollectionNames().includes("$COLLECTION")) {
-    print("Creating collection: $COLLECTION");
-    db.createCollection("$COLLECTION");
+var collName = "$COLLECTION";
+
+if (!db.getCollectionNames().includes(collName)) {
+    print("Creating collection: " + collName);
+    db.createCollection(collName);
 } else {
-    print("Collection already exists: $COLLECTION");
+    print("Collection already exists: " + collName);
 }
 
-// 2️⃣ Create unique index on email
-db.$COLLECTION.createIndex(
-    { jobId: 1 },
-    { unique: true, name: "jobId_unique_idx" }
-);
+// Create unique index
+db[collName].createIndex({ jobId: 1 }, { unique: true, name: "jobId_unique_idx" });
 
 print("Mongo initialization complete");
-
 EOF

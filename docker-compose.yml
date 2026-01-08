@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      no_cache: false
+    container_name: task_tracker_app
+    ports:
+      - "8090:8080"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: task_tracker_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d:ro
+
+  mongo-init:
+    image: mongo:6.0
+    container_name: task_tracker_mongo_init
+    depends_on:
+      mongo:
+        condition: service_started
+    volumes:
+      - ./mongo-init/jobListingIndexes.js:/jobListingIndexes.js:ro
+    entrypoint: [ "sh", "-c", "echo 'Waiting for Mongo...' \
+           && until mongosh --host mongo --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do sleep 1; done \
+           && echo 'Running index script' \
+            && mongosh --host mongo /jobListingIndexes.js" ]
+    restart: "no"
+
+
+volumes:
+    mongo_data:
