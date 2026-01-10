@@ -4,7 +4,7 @@ import com.jobboard.models.dto.JobListing;
 
 import java.util.List;
 
-public interface ExternalAPIPolling {
+public interface JobListingService {
     // return true if the external API is healthy, false otherwise
     boolean pollExternalAPIForHealth(String externalApiUrl);
 

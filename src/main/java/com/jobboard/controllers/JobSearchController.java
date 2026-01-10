@@ -4,7 +4,7 @@ import com.jobboard.data.JobListingMongoRepo;
 import com.jobboard.models.dto.JobListing;
 import com.jobboard.models.wsdto.WSError;
 import com.jobboard.models.wsdto.WSJobListingResponse;
-import com.jobboard.services.ExternalAPIPolling;
+import com.jobboard.services.JobListingService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ import java.util.List;
 public class JobSearchController {
 
     @Autowired
-    private ExternalAPIPolling externalAPIPolling;
+    private JobListingService externalAPIPolling;
 
     @Resource
     private JobListingMongoRepo jobListingMongoRepo;

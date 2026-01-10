@@ -2,7 +2,7 @@ package com.jobboard.schedulers;
 
 import com.jobboard.data.JobListingMongoRepo;
 import com.jobboard.models.dto.JobListing;
-import com.jobboard.services.ExternalAPIPolling;
+import com.jobboard.services.JobListingService;
 import jakarta.annotation.Resource;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ListJobsInMongo {
 
     @Resource
-    private ExternalAPIPolling externalAPIPolling;
+    private JobListingService externalAPIPolling;
 
     @Resource
     private JobListingMongoRepo jobListingMongoRepo;
@@ -28,12 +28,12 @@ public class ListJobsInMongo {
 
     private static final Logger LOG = LoggerFactory.getLogger(ListJobsInMongo.class);
 
-    @Scheduled(cron = "0 */15 * * * *", zone = "Asia/Kolkata") // Every 15 minutes
+    @Scheduled(initialDelay = 0, fixedRate = 90000) // Every 15 minutes
     public void runJobListingsIntoMongoEvery15Minutes() {
         LOG.info("Starting scheduled task to list job listings into MongoDB.");
         // Implementation to list job listings into MongoDB every 15 minutes
         try {
-            List<JobListing> jobList = externalAPIPolling.fetchJobListings(jobSearchApiUrl, "java", "vijayawada", 2, 1, 50);
+            List<JobListing> jobList = externalAPIPolling.fetchJobListings(jobSearchApiUrl, "java", "hyderabad", 8, 1, 50);
             jobListingMongoRepo.upsertIgnoreDuplicates(jobList);
         } catch (Exception e) {
             LOG.error("Error while fetching or saving job listings: {}", e.getMessage());
