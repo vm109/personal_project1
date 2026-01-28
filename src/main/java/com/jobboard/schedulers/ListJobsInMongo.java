@@ -28,7 +28,7 @@ public class ListJobsInMongo {
 
     private static final Logger LOG = LoggerFactory.getLogger(ListJobsInMongo.class);
 
-    @Scheduled(initialDelay = 0, fixedRate = 90000) // Every 15 minutes
+    @Scheduled(initialDelay = 0, fixedRate = 900000) // Every 15 minutes
     public void runJobListingsIntoMongoEvery15Minutes() {
         LOG.info("Starting scheduled task to list job listings into MongoDB.");
         // Implementation to list job listings into MongoDB every 15 minutes
